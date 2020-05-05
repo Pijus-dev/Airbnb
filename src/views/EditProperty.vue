@@ -8,6 +8,8 @@
       </div>
     </section>
     <div class="container">
+      <br />
+      <router-link to="/properties"> Back to all properties</router-link>
       <form @submit.prevent="edit">
         <div class="edit">
           <b-notification
@@ -32,9 +34,21 @@
           <b-field label="Description">
             <b-input v-model="name" maxlength="1000" type="textarea"></b-input>
           </b-field>
-          <b-field label="Images(oneMinimum)">
-            <b-input v-model="img" placeholder="URL" required></b-input>
+          <b-field
+            v-for="index in count"
+            :key="index"
+            :label="'Images' + index"
+          >
+            <b-input
+              :disabled="img[index]"
+              v-model="img[index - 1]"
+              placeholder="URL"
+              required
+            ></b-input>
           </b-field>
+          <p v-if="display" @click="addImage" class="add">
+            &#10010; Add another image
+          </p>
           <div class="buttons is-right">
             <b-button native-type="submit" type="button is-warning"
               >Edit</b-button
@@ -62,8 +76,10 @@ export default {
       type: "",
       notification: "",
       price: "",
-      img: "",
-      name: ""
+      img: [],
+      name: "",
+      display: true,
+      count: 1
     };
   },
   methods: {
@@ -93,6 +109,12 @@ export default {
             (this.type = "is-warning"),
             (this.notification = "You have successfully updated your property");
         });
+    },
+    addImage() {
+      this.count++;
+      if (this.count >= 5) {
+        this.display = false;
+      }
     }
   },
   beforeMount() {
@@ -107,5 +129,9 @@ export default {
   padding: 30px;
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
+}
+.add {
+  cursor: pointer;
+  color: rgb(196, 148, 60);
 }
 </style>
