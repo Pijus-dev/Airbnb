@@ -1,29 +1,93 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import firebase from "firebase/app";
+import "firebase/auth";
+import Register from "../views/Register.vue";
+import Login from "../views/Login.vue";
+import Properties from "../views/Properties.vue";
+import AddProperty from "../views/AddProperty.vue";
+import Property from "../views/Property.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "/login",
+    name: "Login",
+    component: Login
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function() {
-      return import(/* webpackChunkName: "about" */ "../views/About.vue");
-    }
+    path: "/register",
+    name: "Register",
+    component: Register
+  },
+  {
+    path: "/properties",
+    name: "Properties",
+    component: Properties
+  },
+  {
+    path: "/properties/id/:id",
+    name: "Property",
+    component: Property
+  },
+  {
+    path: "/addProperty",
+    name: "AddProperty",
+    component: AddProperty
   }
 ];
-
 const router = new VueRouter({
+  mode: "history",
   routes
 });
+
+// const router = new VueRouter({
+//   mode: "history",
+//   base: process.env.BASE_URL,
+//   routes: [
+//     {
+//       path: "/",
+//       redirect: "/login"
+//     },
+//     {
+//       path: "/register",
+//       name: "Register",
+//       component: Register,
+//       meta: {
+//         requiresAuth: true
+//       }
+//     },
+//     {
+//       path: "/login",
+//       name: "Login",
+//       component: Login
+//     }
+//   ]
+// });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     firebase.auth().onAuthStateChanged(user => {
+//       if (user) {
+//         next();
+//       } else {
+//         next({
+//           path: "/login"
+//         });
+//       }
+//     });
+//   } else {
+//     firebase.auth().onAuthStateChanged(user => {
+//       if (user) {
+//         next({
+//           path: "/register"
+//         });
+//       } else {
+//         next();
+//       }
+//     });
+//   }
+// });
 
 export default router;

@@ -1,0 +1,116 @@
+<template>
+  <div>
+    <section class="hero is-dark">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Add Property
+          </h1>
+        </div>
+      </div>
+    </section>
+    <div class="container">
+      <form @submit.prevent="addProperty">
+        <div class="property">
+          <b-notification
+            :active.sync="isActive"
+            v-bind:class="type"
+            aria-close-label="Close notification"
+          >
+            {{ notification }}
+          </b-notification>
+          <div class="columns">
+            <div class="column">
+              <b-field label="Property Name" expanded>
+                <b-input
+                  placeholder="Property Name"
+                  type="text"
+                  v-model="text"
+                  required
+                ></b-input>
+              </b-field>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <b-field label="City">
+                <b-select v-model="city" expanded placeholder="Select a city">
+                  <option value="Kaunas">Kaunas</option>
+                  <option value="Vilnius">Vilnius</option>
+                  <option value="Palanga">Palanga</option>
+                </b-select>
+              </b-field>
+            </div>
+            <div class="column">
+              <b-field label="Price per night">
+                <b-input placeholder="price" v-model="price" required></b-input>
+              </b-field>
+            </div>
+          </div>
+          <b-field label="Description">
+            <b-input v-model="name" maxlength="200" type="textarea"></b-input>
+          </b-field>
+          <b-field label="Images(oneMinimum)">
+            <b-input v-model="img" aria-placeholder="URL"></b-input>
+          </b-field>
+          <div class="buttons is-right">
+            <b-button native-type="submit" type="button is-warning"
+              >Add</b-button
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import firebase from "firebase/app";
+import "firebase/firebase-firestore";
+export default {
+  name: "AddProperty",
+  data() {
+    return {
+      price: "",
+      text: "",
+      img: "",
+      city: "",
+      type: "",
+      name: "",
+      notification: "",
+      isActive: false
+    };
+  },
+  methods: {
+    addProperty() {
+      firebase
+        .firestore()
+        .collection("properties")
+        .add({
+          price: this.price,
+          text: this.text,
+          img: this.img,
+          city: this.city,
+          name: this.name
+        })
+        .then(() => {
+          (this.isActive = true),
+            (this.notification = "You have successfully added a property"),
+            (this.type = "is-warning");
+        })
+        .catch(e => {
+          alert(e.message);
+        });
+    }
+  }
+};
+</script>
+
+<style scoped>
+.property {
+  margin: 30px 0;
+  padding: 30px;
+  box-shadow: 0 0px 2px 2px #eee;
+  border-radius: 8px;
+}
+</style>
