@@ -7,6 +7,7 @@ import Login from "../views/Login.vue";
 import Properties from "../views/Properties.vue";
 import AddProperty from "../views/AddProperty.vue";
 import Property from "../views/Property.vue";
+import EditProperty from "../views/EditProperty.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +31,11 @@ const routes = [
     path: "/properties/id/:id",
     name: "Property",
     component: Property
+  },
+  {
+    path: "/properties/city/:id",
+    name: "EditProperty",
+    component: EditProperty
   },
   {
     path: "/addProperty",

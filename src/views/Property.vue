@@ -17,9 +17,9 @@
       <div class="columns">
         <div class="column">
           <div class="flex-card">
-            <img :src="property.img" class="propert-img" />
+            <img :src="property.img" />
           </div>
-          <p class="subtitle">{{property.price}}</p>
+          <p class="subtitle">{{ property.price }}</p>
           <div class="card-content">
             <p>{{ property.name }}</p>
           </div>
@@ -38,7 +38,7 @@ export default {
     return {
       property: {
         id: "",
-        title: undefined
+        price: undefined
       },
       id: this.$route.params.id
     };
@@ -56,6 +56,7 @@ export default {
             (this.property.img = data.data().img),
             (this.property.price = data.data().price),
             (this.property.city = data.data().city);
+          this.property.name = data.data().name;
         });
     }
   },
@@ -66,14 +67,15 @@ export default {
 </script>
 
 <style scoped>
-.property-img {
-  height: 250px !important;
+img {
+  height: 400px !important;
 }
 .flex-card {
   display: flex;
   justify-content: center;
 }
-p{
- display: block !important;
+p {
+  text-align: center;
+  color: silver;
 }
 </style>

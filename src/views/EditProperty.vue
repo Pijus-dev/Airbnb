@@ -3,15 +3,13 @@
     <section class="hero is-dark">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
-            Add Property
-          </h1>
+          <h1 class="title">Edit Property: {{ property.title }}</h1>
         </div>
       </div>
     </section>
     <div class="container">
-      <form @submit.prevent="addProperty">
-        <div class="property">
+      <form @submit.prevent="edit">
+        <div class="edit">
           <b-notification
             :active.sync="isActive"
             v-bind:class="type"
@@ -21,29 +19,13 @@
           </b-notification>
           <div class="columns">
             <div class="column">
-              <b-field label="Property Name" expanded>
+              <b-field label="Property Price" expanded>
                 <b-input
-                  placeholder="Property Name"
+                  placeholder="Property Price"
                   type="text"
-                  v-model="text"
+                  v-model="price"
                   required
                 ></b-input>
-              </b-field>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column">
-              <b-field label="City">
-                <b-select v-model="city" expanded placeholder="Select a city">
-                  <option value="Kaunas">Kaunas</option>
-                  <option value="Vilnius">Vilnius</option>
-                  <option value="Palanga">Palanga</option>
-                </b-select>
-              </b-field>
-            </div>
-            <div class="column">
-              <b-field label="Price per night">
-                <b-input placeholder="price" v-model="price" required></b-input>
               </b-field>
             </div>
           </div>
@@ -51,11 +33,11 @@
             <b-input v-model="name" maxlength="1000" type="textarea"></b-input>
           </b-field>
           <b-field label="Images(oneMinimum)">
-            <b-input v-model="img" aria-placeholder="URL"></b-input>
+            <b-input v-model="img" placeholder="URL" required></b-input>
           </b-field>
           <div class="buttons is-right">
             <b-button native-type="submit" type="button is-warning"
-              >Add</b-button
+              >Edit</b-button
             >
           </div>
         </div>
@@ -68,46 +50,59 @@
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
 export default {
-  name: "AddProperty",
+  name: "Property",
   data() {
     return {
-      price: "",
-      text: "",
-      img: "",
-      city: "",
+      property: {
+        id: "",
+        title: undefined
+      },
+      id: this.$route.params.id,
+      isActive: false,
       type: "",
-      name: "",
       notification: "",
-      isActive: false
+      price: "",
+      img: "",
+      name: ""
     };
   },
   methods: {
-    addProperty() {
+    get() {
       firebase
         .firestore()
         .collection("properties")
-        .add({
+        .doc(this.id)
+        .get()
+        .then(data => {
+          (this.property.id = data.id),
+            (this.property.title = data.data().text);
+        });
+    },
+    edit() {
+      firebase
+        .firestore()
+        .collection("properties")
+        .doc(this.id)
+        .update({
           price: this.price,
-          text: this.text,
           img: this.img,
-          city: this.city,
           name: this.name
         })
         .then(() => {
           (this.isActive = true),
-            (this.notification = "You have successfully added a property"),
-            (this.type = "is-warning");
-        })
-        .catch(e => {
-          alert(e.message);
+            (this.type = "is-warning"),
+            (this.notification = "You have successfully updated your property");
         });
     }
+  },
+  beforeMount() {
+    this.get();
   }
 };
 </script>
 
-<style scoped>
-.property {
+<style>
+.edit {
   margin: 30px 0;
   padding: 30px;
   box-shadow: 0 0px 2px 2px #eee;

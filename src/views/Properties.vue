@@ -36,7 +36,12 @@
                     <p class="subtitle is-4">{{ property.price }}</p>
                   </div>
                   <div class="media-right">
-                    <p class="subtitle is-4">Edit</p>
+                    <p
+                      @click="redirectToEdit(property.id)"
+                      class="subtitle is-4 edit"
+                    >
+                      Edit
+                    </p>
                   </div>
                 </div>
               </div>
@@ -87,6 +92,9 @@ export default {
     },
     redirectTo(id) {
       this.$router.push("/properties/id/" + id);
+    },
+    redirectToEdit(id) {
+      this.$router.push("/properties/city/" + id);
     }
   },
   beforeMount() {
@@ -107,5 +115,8 @@ export default {
 }
 .property-img:hover {
   opacity: 0.7;
+}
+.edit{
+  cursor: pointer;
 }
 </style>
