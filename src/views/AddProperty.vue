@@ -1,9 +1,9 @@
 <template>
   <div>
-    <section class="hero is-dark">
+    <section class="hero text">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
+          <h1>
             Add Property
           </h1>
         </div>
@@ -135,5 +135,12 @@ export default {
 .add {
   cursor: pointer;
   color: rgb(196, 148, 60);
+}
+.text {
+  background-color: rgba(24, 143, 77, 0.55);
+}
+h1 {
+  color: rgb(83, 82, 82) !important;
+  font-size: 2rem !important;
 }
 </style>

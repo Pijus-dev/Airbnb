@@ -1,9 +1,9 @@
 <template>
   <div class="about">
-    <section class="hero is-dark">
+    <section class="hero text">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
+          <h1>
             LOGIN
           </h1>
         </div>
@@ -80,5 +80,12 @@ export default {
   padding: 30px;
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
+}
+.text {
+  background-color: rgba(24, 143, 77, 0.55);
+}
+h1 {
+  color: rgb(83, 82, 82) !important;
+  font-size: 2rem !important;
 }
 </style>

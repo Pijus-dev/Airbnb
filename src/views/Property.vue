@@ -1,9 +1,10 @@
 <template>
   <div>
-    <section class="hero is-dark">
+    <Spinner v-bind:loading="loadingScreen"/>
+    <section class="hero text">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
+          <h1>
             {{ property.title }}
           </h1>
         </div>
@@ -13,20 +14,22 @@
       <br />
       <router-link to="/properties"> Back to all properties</router-link>
       <hr />
-      <h1 class="title">{{ property.city }}</h1>
       <div class="columns">
         <div class="column">
-          <div class="flex-card">
-            <b-carousel class="carousel" :indicator="false" :pause-info="false">
-              <b-carousel-item v-for="(carousel, i) in property.img" :key="i">
-                <img :src="carousel" />
-              </b-carousel-item>
-            </b-carousel>
-          </div>
-          <p class="subtitle">{{ property.price }}</p>
-          <div class="card-content">
+          <h1>{{ property.city }}</h1>
+          <p class="subtitle is-3">{{ property.price }} per night</p>
+          <p class="subtitle is-4">{{ property.name }}</p>
+        </div>
+        <div class="column">
+          <b-carousel class="carousel" :indicator="false" :pause-info="false">
+            <b-carousel-item v-for="(carousel, i) in property.img" :key="i">
+              <img :src="carousel" />
+            </b-carousel-item>
+          </b-carousel>
+          <!-- <p class="subtitle">{{ property.price }}</p> -->
+          <!-- <div class="card-content">
             <p>{{ property.name }}</p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -36,6 +39,7 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
+import Spinner from "../components/Spinner";
 export default {
   name: "Property",
   data() {
@@ -44,9 +48,11 @@ export default {
         id: "",
         price: undefined
       },
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      loadingScreen: true
     };
   },
+  components: {Spinner},
   methods: {
     get() {
       firebase
@@ -61,6 +67,8 @@ export default {
             (this.property.price = data.data().price),
             (this.property.city = data.data().city);
           this.property.name = data.data().name;
+        }).then(() => {
+          this.loadingScreen = false;
         });
     }
   },
@@ -79,7 +87,13 @@ img {
   justify-content: center;
 }
 p {
-  text-align: center;
   color: silver;
+}
+.text {
+  background-color: rgba(24, 143, 77, 0.55);
+}
+h1 {
+  color: rgb(83, 82, 82) !important;
+  font-size: 2rem !important;
 }
 </style>

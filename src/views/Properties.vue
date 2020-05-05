@@ -1,9 +1,10 @@
 <template>
   <div>
-    <section class="hero is-dark">
+    <Spinner v-bind:loading="loadingScreen" />
+    <section class="hero text">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">
+          <h1>
             Properties
           </h1>
         </div>
@@ -31,14 +32,14 @@
                     </figure>
                   </div>
                   <div class="media-content">
-                    <p class="title is-4">{{ property.text }}</p>
+                    <p id="tekstas">{{ property.text }}</p>
                     <p class="subtitle is-6">{{ property.city }}</p>
                     <p class="subtitle is-4">{{ property.price }}</p>
                   </div>
                   <div class="media-right">
                     <p
                       @click="redirectToEdit(property.id)"
-                      class="subtitle is-4 edit"
+                      class="subtitle is-4 update"
                     >
                       Edit
                     </p>
@@ -61,13 +62,16 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
+import Spinner from "../components/Spinner";
 export default {
   name: "Properties",
   data() {
     return {
-      properties: []
+      properties: [],
+      loadingScreen: true
     };
   },
+  components: { Spinner },
   methods: {
     getData() {
       firebase
@@ -85,6 +89,9 @@ export default {
             };
             this.properties.push(obj);
           });
+        })
+        .then(() => {
+          this.loadingScreen = false;
         });
     },
     redirect() {
@@ -116,7 +123,19 @@ export default {
 .property-img:hover {
   opacity: 0.7;
 }
-.edit {
+.update {
   cursor: pointer;
+  margin-top: 35px;
+}
+.text {
+  background-color: rgba(24, 143, 77, 0.55);
+}
+#tekstas {
+  color: rgb(29, 29, 29) !important;
+  font-size: 1.5rem !important;
+}
+h1 {
+  color: rgb(83, 82, 82) !important;
+  font-size: 2rem !important;
 }
 </style>

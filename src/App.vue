@@ -14,9 +14,7 @@
               <router-link to="/properties">Properties</router-link>
             </b-navbar-item>
             <b-navbar-item>
-              <b-button type="button is-primary" outlined @click="logout"
-                >LogOut</b-button
-              >
+              <b-button id="btn" @click="logout">LogOut</b-button>
             </b-navbar-item>
           </span>
           <span class="nav" v-else>
@@ -52,10 +50,22 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+* {
+  font-family: "Rubik", sans-serif;
+}
 .nav {
   display: flex;
 }
-.navbar-item img{
-  max-height: 50px !important;
+.navbar-item img {
+  max-height: 60px !important;
+}
+a {
+  color: rgb(66, 134, 66) !important;
+  font-size: 1em;
+}
+#btn {
+  color: rgb(66, 134, 66) !important;
+  border: none;
 }
 </style>
