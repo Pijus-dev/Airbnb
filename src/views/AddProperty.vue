@@ -73,7 +73,7 @@ export default {
     return {
       price: "",
       text: "",
-      img: "",
+      img: [],
       city: "",
       type: "",
       name: "",

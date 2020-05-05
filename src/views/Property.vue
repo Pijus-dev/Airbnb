@@ -17,7 +17,11 @@
       <div class="columns">
         <div class="column">
           <div class="flex-card">
-            <img :src="property.img" />
+            <b-carousel class="carousel" :indicator="false" :pause-info="false">
+              <b-carousel-item v-for="(carousel, i) in property.img" :key="i">
+                <img :src="carousel" />
+              </b-carousel-item>
+            </b-carousel>
           </div>
           <p class="subtitle">{{ property.price }}</p>
           <div class="card-content">

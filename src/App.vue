@@ -4,10 +4,7 @@
       <b-navbar>
         <template slot="brand">
           <b-navbar-item tag="router-link" :to="{ path: '/register' }">
-            <img
-              src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
-              alt="Lightweight UI components for Vue.js based on Bulma"
-            />
+            <img src="../public/logo3.png" />
           </b-navbar-item>
         </template>
 
@@ -57,5 +54,8 @@ export default {
 <style>
 .nav {
   display: flex;
+}
+.navbar-item img{
+  max-height: 50px !important;
 }
 </style>

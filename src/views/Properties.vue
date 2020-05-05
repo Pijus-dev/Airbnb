@@ -81,7 +81,7 @@ export default {
               text: product.data().text,
               price: product.data().price,
               city: product.data().city,
-              img: product.data().img
+              img: product.data().img[0]
             };
             this.properties.push(obj);
           });
@@ -116,7 +116,7 @@ export default {
 .property-img:hover {
   opacity: 0.7;
 }
-.edit{
+.edit {
   cursor: pointer;
 }
 </style>
