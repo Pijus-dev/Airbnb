@@ -1,99 +1,91 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
-import Register from "../views/Register.vue";
+// import Register from "../views/Register.vue";
 import Login from "../views/Login.vue";
-import Properties from "../views/Properties.vue";
-import AddProperty from "../views/AddProperty.vue";
-import Property from "../views/Property.vue";
-import EditProperty from "../views/EditProperty.vue";
+// import Properties from "../views/Properties.vue";
+// import AddProperty from "../views/AddProperty.vue";
+// import Property from "../views/Property.vue";
+// import EditProperty from "../views/EditProperty.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/login",
+    path: "/",
     name: "Login",
-    component: Login
+    component: Login,
+    meta: {
+      requiredAnon: true
+    }
   },
   {
     path: "/register",
     name: "Register",
-    component: Register
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/Register.vue"),
+    meta: {
+      requiredAnon: true
+    }
   },
   {
     path: "/properties",
     name: "Properties",
-    component: Properties
+    component: () =>
+      import(/* webpackChunkName: "properties" */ "../views/Properties.vue"),
+    meta: {
+      requiredAuth: true
+    }
   },
   {
     path: "/properties/id/:id",
     name: "Property",
-    component: Property
+    component: () =>
+      import(/* webpackChunkName: "property" */ "../views/Property.vue"),
+    meta: {
+      requiredAuth: true
+    }
   },
   {
     path: "/properties/city/:id",
     name: "EditProperty",
-    component: EditProperty
+    component: () =>
+      import(/* webpackChunkName: "editproperty" */ "../views/EditProperty.vue"),
+    meta: {
+      requiredAuth: true
+    }
   },
   {
     path: "/addProperty",
     name: "AddProperty",
-    component: AddProperty
+    component: () =>
+      import(/* webpackChunkName: "addproperty" */ "../views/AddProperty.vue"),
+    meta: {
+      requiredAuth: true
+    }
   }
 ];
 const router = new VueRouter({
   mode: "history",
+  base: process.env.BASE_URL,
   routes
 });
 
-// const router = new VueRouter({
-//   mode: "history",
-//   base: process.env.BASE_URL,
-//   routes: [
-//     {
-//       path: "/",
-//       redirect: "/login"
-//     },
-//     {
-//       path: "/register",
-//       name: "Register",
-//       component: Register,
-//       meta: {
-//         requiresAuth: true
-//       }
-//     },
-//     {
-//       path: "/login",
-//       name: "Login",
-//       component: Login
-//     }
-//   ]
-// });
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     firebase.auth().onAuthStateChanged(user => {
-//       if (user) {
-//         next();
-//       } else {
-//         next({
-//           path: "/login"
-//         });
-//       }
-//     });
-//   } else {
-//     firebase.auth().onAuthStateChanged(user => {
-//       if (user) {
-//         next({
-//           path: "/register"
-//         });
-//       } else {
-//         next();
-//       }
-//     });
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user && to.matched.some(record => record.meta.requiredAnon)) {
+      next({
+        path: "/properties"
+      });
+    } else if (!user && to.matched.some(record => record.meta.requiredAuth)) {
+      next({
+        path: "/"
+      });
+    } else {
+      next();
+    }
+  });
+});
 
 export default router;

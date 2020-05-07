@@ -50,9 +50,7 @@
           </div>
         </div>
         <div class="buttons">
-          <b-button @click="redirect" type="button is-info" outlined
-            >Add Property</b-button
-          >
+          <b-button @click="redirect" id="btn">Add Property</b-button>
         </div>
       </div>
     </div>

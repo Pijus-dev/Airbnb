@@ -35,9 +35,9 @@
             <div class="column">
               <b-field label="City">
                 <b-select v-model="city" expanded placeholder="Select a city">
-                  <option value="Kaunas">Kaunas</option>
-                  <option value="Vilnius">Vilnius</option>
-                  <option value="Palanga">Palanga</option>
+                  <option v-for="value in array" :value="value" :key="value">{{
+                    value
+                  }}</option>
                 </b-select>
               </b-field>
             </div>
@@ -65,9 +65,7 @@
             &#10010; Add another image
           </p>
           <div class="buttons is-right">
-            <b-button native-type="submit" type="button is-warning"
-              >Add</b-button
-            >
+            <b-button native-type="submit" id="btn">Add</b-button>
           </div>
         </div>
       </form>
@@ -91,7 +89,8 @@ export default {
       notification: "",
       display: true,
       isActive: false,
-      count: 1
+      count: 1,
+      array: []
     };
   },
   methods: {
@@ -120,7 +119,22 @@ export default {
       if (this.count >= 5) {
         this.display = false;
       }
+    },
+    getCities() {
+      fetch(
+        "https://raw.githubusercontent.com/samayo/country-json/master/src/country-by-capital-city.json"
+      )
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(item => {
+            console.log(item.city);
+            this.array.push(item.city);
+          });
+        });
     }
+  },
+  beforeMount() {
+    this.getCities();
   }
 };
 </script>

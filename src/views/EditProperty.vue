@@ -40,7 +40,7 @@
             :label="'Images' + index"
           >
             <b-input
-              :disabled="img[index]"
+              :disabled="index < count"
               v-model="img[index - 1]"
               placeholder="URL"
               required
@@ -50,9 +50,7 @@
             &#10010; Add another image
           </p>
           <div class="buttons is-right">
-            <b-button native-type="submit" type="button is-warning"
-              >Edit</b-button
-            >
+            <b-button native-type="submit" id="btn">Edit</b-button>
           </div>
         </div>
       </form>
@@ -134,10 +132,10 @@ export default {
   cursor: pointer;
   color: rgb(196, 148, 60);
 }
-.text{
+.text {
   background-color: rgba(24, 143, 77, 0.55);
 }
-h1{
+h1 {
   color: rgb(83, 82, 82) !important;
   font-size: 2rem !important;
 }

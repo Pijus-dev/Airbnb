@@ -22,7 +22,7 @@
               <router-link to="/register">Register</router-link>
             </b-navbar-item>
             <b-navbar-item>
-              <router-link to="/login">Login</router-link>
+              <router-link to="/">Login</router-link>
             </b-navbar-item>
           </span>
         </template>
@@ -37,13 +37,13 @@ import "firebase/auth";
 export default {
   computed: {
     signIn() {
-      return this.$route.path !== "/login" && this.$route.path !== "/register";
+      return this.$route.path !== "/" && this.$route.path !== "/register";
     }
   },
   methods: {
     logout() {
       firebase.auth().signOut();
-      this.$router.push("/login");
+      this.$router.push("/");
     }
   }
 };
@@ -66,6 +66,10 @@ a {
 }
 #btn {
   color: rgb(66, 134, 66) !important;
-  border: none;
+   border-color: rgb(66, 134, 66) !important;
+}
+#btn:hover {
+  color: white !important;
+  background-color: rgb(66, 134, 66) !important ;
 }
 </style>
