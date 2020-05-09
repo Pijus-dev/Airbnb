@@ -14,6 +14,9 @@
               <router-link to="/properties">Properties</router-link>
             </b-navbar-item>
             <b-navbar-item>
+              <router-link to="/user">Hello, {{ userName }} </router-link>
+            </b-navbar-item>
+            <b-navbar-item>
               <b-button id="btn" @click="logout">LogOut</b-button>
             </b-navbar-item>
           </span>
@@ -33,8 +36,14 @@
 </template>
 <script>
 import firebase from "firebase/app";
+import "firebase/firebase-firestore";
 import "firebase/auth";
 export default {
+  data() {
+    return {
+      userName: ""
+    };
+  },
   computed: {
     signIn() {
       return this.$route.path !== "/" && this.$route.path !== "/register";
@@ -44,7 +53,24 @@ export default {
     logout() {
       firebase.auth().signOut();
       this.$router.push("/");
+    },
+    getName() {
+      let user = firebase.auth().currentUser;
+      if (user != null) {
+        firebase
+          .firestore()
+          .collection("admin")
+          .doc(user.uid)
+          .get()
+          .then(doc => {
+            this.userName = doc.data().name;
+          });
+      }
     }
+  },
+  beforeMount() {
+    this.getName();
+    console.log(firebase.auth().currentUser.uid);
   }
 };
 </script>
@@ -53,6 +79,13 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
 * {
   font-family: "Rubik", sans-serif;
+}
+.text {
+  background-color: rgba(24, 143, 77, 0.55);
+}
+h1 {
+  color: rgb(83, 82, 82) !important;
+  font-size: 2rem !important;
 }
 .nav {
   display: flex;
@@ -66,7 +99,7 @@ a {
 }
 #btn {
   color: rgb(66, 134, 66) !important;
-   border-color: rgb(66, 134, 66) !important;
+  border-color: rgb(66, 134, 66) !important;
 }
 #btn:hover {
   color: white !important;

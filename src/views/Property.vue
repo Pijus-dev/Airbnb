@@ -1,15 +1,7 @@
 <template>
   <div>
-    <Spinner v-bind:loading="loadingScreen"/>
-    <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>
-            {{ property.title }}
-          </h1>
-        </div>
-      </div>
-    </section>
+    <Spinner v-bind:loading="loadingScreen" />
+    <Hero :text="property.title" />
     <div class="container">
       <br />
       <router-link to="/properties"> Back to all properties</router-link>
@@ -40,6 +32,7 @@
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
 import Spinner from "../components/Spinner";
+import Hero from "../components/Hero";
 export default {
   name: "Property",
   data() {
@@ -52,7 +45,7 @@ export default {
       loadingScreen: true
     };
   },
-  components: {Spinner},
+  components: { Spinner, Hero },
   methods: {
     get() {
       firebase
@@ -67,7 +60,8 @@ export default {
             (this.property.price = data.data().price),
             (this.property.city = data.data().city);
           this.property.name = data.data().name;
-        }).then(() => {
+        })
+        .then(() => {
           this.loadingScreen = false;
         });
     }
@@ -81,6 +75,7 @@ export default {
 <style scoped>
 img {
   height: 400px !important;
+  border-radius: 8px;
 }
 .flex-card {
   display: flex;
@@ -88,12 +83,5 @@ img {
 }
 p {
   color: silver;
-}
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
-}
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
 }
 </style>

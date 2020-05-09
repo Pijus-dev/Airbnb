@@ -1,12 +1,13 @@
 <template>
   <div>
-    <section class="hero text">
+    <!-- <section class="hero text">
       <div class="hero-body">
         <div class="container">
           <h1>Edit Property: {{ property.title }}</h1>
         </div>
       </div>
-    </section>
+    </section> -->
+    <Hero :text="'Edit Property:' + ' ' + property.title"/>
     <div class="container">
       <br />
       <router-link to="/properties"> Back to all properties</router-link>
@@ -21,18 +22,27 @@
           </b-notification>
           <div class="columns">
             <div class="column">
-              <b-field label="Property Price" expanded>
+              <b-field label="City" expanded>
                 <b-input
-                  placeholder="Property Price"
+                  :placeholder="property.city"
+                  disabled
                   type="text"
-                  v-model="price"
-                  required
                 ></b-input>
               </b-field>
             </div>
           </div>
+          <div class="columns">
+            <div class="column">
+              <b-field
+                :label="'Property Price' + ' ' +   property.currentPrice + '$'"
+                expanded
+              >
+                <b-input type="text"  placeholder="add new price" v-model="price" required></b-input>
+              </b-field>
+            </div>
+          </div>
           <b-field label="Description">
-            <b-input v-model="name" maxlength="1000" type="textarea"></b-input>
+            <b-input v-model="name" maxlength="1000" type="textarea" required></b-input>
           </b-field>
           <b-field
             v-for="index in count"
@@ -61,21 +71,25 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
+import Hero from "../components/Hero";
 export default {
   name: "Property",
+  components: { Hero },
   data() {
     return {
       property: {
         id: "",
-        title: undefined
+        title: undefined,
+        city: "",
+        currentPrice: ""
       },
       id: this.$route.params.id,
       isActive: false,
       type: "",
       notification: "",
-      price: "",
       img: [],
       name: "",
+      price: "",
       display: true,
       count: 1
     };
@@ -90,6 +104,8 @@ export default {
         .then(data => {
           (this.property.id = data.id),
             (this.property.title = data.data().text);
+          this.property.city = data.data().city;
+          this.property.currentPrice = data.data().price;
         });
     },
     edit() {
@@ -131,12 +147,5 @@ export default {
 .add {
   cursor: pointer;
   color: rgb(196, 148, 60);
-}
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
-}
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
 }
 </style>

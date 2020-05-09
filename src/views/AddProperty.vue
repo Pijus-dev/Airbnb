@@ -1,14 +1,6 @@
 <template>
   <div>
-    <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>
-            Add Property
-          </h1>
-        </div>
-      </div>
-    </section>
+    <Hero text="Add property"/>
     <div class="container">
       <form @submit.prevent="addProperty">
         <div class="property">
@@ -35,7 +27,7 @@
             <div class="column">
               <b-field label="City">
                 <b-select v-model="city" expanded placeholder="Select a city">
-                  <option v-for="value in array" :value="value" :key="value">{{
+                  <option v-for="value in cities" :value="value" :key="value">{{
                     value
                   }}</option>
                 </b-select>
@@ -56,7 +48,7 @@
             :label="'Images' + index"
           >
             <b-input
-              :disabled="img[index]"
+              :disabled="index < count"
               v-model="img[index - 1]"
               placeholder="URL"
             ></b-input>
@@ -76,8 +68,10 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
+import Hero from "../components/Hero";
 export default {
   name: "AddProperty",
+  components: { Hero },
   data() {
     return {
       price: "",
@@ -90,7 +84,8 @@ export default {
       display: true,
       isActive: false,
       count: 1,
-      array: []
+      array: [],
+      cities: []
     };
   },
   methods: {
@@ -107,6 +102,11 @@ export default {
         })
         .then(() => {
           (this.isActive = true),
+            (this.price = ""),
+            (this.name = ""),
+            (this.img = ""),
+            (this.text = ""),
+            (this.city = ""),
             (this.notification = "You have successfully added a property"),
             (this.type = "is-warning");
         })
@@ -127,8 +127,8 @@ export default {
         .then(response => response.json())
         .then(data => {
           data.forEach(item => {
-            console.log(item.city);
             this.array.push(item.city);
+            this.cities = this.array.filter(item => item !== null);
           });
         });
     }
@@ -149,12 +149,5 @@ export default {
 .add {
   cursor: pointer;
   color: rgb(196, 148, 60);
-}
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
-}
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
 }
 </style>

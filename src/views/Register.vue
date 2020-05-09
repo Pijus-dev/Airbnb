@@ -1,14 +1,6 @@
 <template>
   <div>
-    <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>
-            REGISTER
-          </h1>
-        </div>
-      </div>
-    </section>
+    <Hero text="Register" />
     <div class="container">
       <form @submit.prevent="addInfo">
         <div class="register">
@@ -74,10 +66,9 @@
               </b-field>
             </div>
           </div>
+          <router-link to="/">Already have an account? Log in</router-link>
           <div class="buttons is-right">
-            <b-button native-type="submit" type="button is-dark" outlined
-              >Register</b-button
-            >
+            <b-button native-type="submit" id="btn">Register</b-button>
           </div>
         </div>
       </form>
@@ -86,6 +77,7 @@
 </template>
 
 <script>
+import Hero from "../components/Hero";
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
 import "firebase/auth";
@@ -93,7 +85,7 @@ import "firebase/auth";
 
 export default {
   name: "Register",
-  // components: { Notification },
+  components: { Hero },
   data() {
     return {
       name: "",
@@ -125,11 +117,13 @@ export default {
             (this.type = "is-warning"),
             (this.notification =
               "You have successfuly registered, please go to login page");
+        })
+        .catch(e => {
+          (this.isActive = true),
+            (this.type = "is-danger"),
+            (this.notification = e.message);
         });
     }
-    // redirect() {
-    //   this.$router.push("/login");
-    // }
   }
 };
 </script>
@@ -139,9 +133,6 @@ export default {
   padding: 30px;
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
-}
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
 }
 h1 {
   color: rgb(83, 82, 82) !important;

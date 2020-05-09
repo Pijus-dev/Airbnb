@@ -1,16 +1,15 @@
 <template>
   <div class="about">
-    <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>
-            LOGIN
-          </h1>
-        </div>
-      </div>
-    </section>
+    <Hero text="Login" />
     <div class="container">
       <div class="login">
+        <b-notification
+          :active.sync="isActive"
+          v-bind:class="type"
+          aria-close-label="Close notification"
+        >
+          {{ notification }}
+        </b-notification>
         <form @submit.prevent="login">
           <div class="columns">
             <div class="column">
@@ -37,9 +36,7 @@
             </div>
           </div>
           <div class="buttons is-right">
-            <b-button native-type="submit" type="button is-dark" outlined
-              >Login</b-button
-            >
+            <b-button native-type="submit" id="btn">Login</b-button>
           </div>
         </form>
       </div>
@@ -50,13 +47,18 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/auth";
+import Hero from "../components/Hero";
 
 export default {
   name: "Login",
+  components: { Hero },
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      isActive: false,
+      notification: "",
+      type: ""
     };
   },
   methods: {
@@ -68,7 +70,9 @@ export default {
           this.$router.push("/properties");
         })
         .catch(e => {
-          alert(e.message);
+          (this.type = "is-danger"),
+            (this.isActive = true),
+            (this.notification = e.message);
         });
     }
   }
@@ -80,12 +84,5 @@ export default {
   padding: 30px;
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
-}
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
-}
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
 }
 </style>

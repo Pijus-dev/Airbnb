@@ -1,15 +1,7 @@
 <template>
   <div>
     <Spinner v-bind:loading="loadingScreen" />
-    <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>
-            Properties
-          </h1>
-        </div>
-      </div>
-    </section>
+    <Hero text="Properties"/>
     <div class="container">
       <div class="properties">
         <div
@@ -34,7 +26,7 @@
                   <div class="media-content">
                     <p id="tekstas">{{ property.text }}</p>
                     <p class="subtitle is-6">{{ property.city }}</p>
-                    <p class="subtitle is-4">{{ property.price }}</p>
+                    <p class="subtitle is-4">{{ property.price }}&euro;</p>
                   </div>
                   <div class="media-right">
                     <p
@@ -61,6 +53,7 @@
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
 import Spinner from "../components/Spinner";
+import Hero from "../components/Hero";
 export default {
   name: "Properties",
   data() {
@@ -69,17 +62,19 @@ export default {
       loadingScreen: true
     };
   },
-  components: { Spinner },
+  components: { Spinner, Hero },
   methods: {
     getData() {
       firebase
         .firestore()
         .collection("properties")
+        // .where("uid", "==", firebase.auth().currentUser.uid)
         .get()
         .then(data => {
           data.forEach(product => {
             const obj = {
               id: product.id,
+              uid: firebase.auth().currentUser.uid,
               text: product.data().text,
               price: product.data().price,
               city: product.data().city,
@@ -125,15 +120,8 @@ export default {
   cursor: pointer;
   margin-top: 35px;
 }
-.text {
-  background-color: rgba(24, 143, 77, 0.55);
-}
 #tekstas {
   color: rgb(29, 29, 29) !important;
   font-size: 1.5rem !important;
-}
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
 }
 </style>
