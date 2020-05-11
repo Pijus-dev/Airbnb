@@ -85,4 +85,7 @@ export default {
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
 }
+.about{
+  height: 80vh;
+}
 </style>

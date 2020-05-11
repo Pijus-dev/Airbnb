@@ -1,13 +1,6 @@
 <template>
   <div>
-    <!-- <section class="hero text">
-      <div class="hero-body">
-        <div class="container">
-          <h1>Edit Property: {{ property.title }}</h1>
-        </div>
-      </div>
-    </section> -->
-    <Hero :text="'Edit Property:' + ' ' + property.title"/>
+    <Hero :text="'Edit Property:' + ' ' + property.title" />
     <div class="container">
       <br />
       <router-link to="/properties"> Back to all properties</router-link>
@@ -34,15 +27,25 @@
           <div class="columns">
             <div class="column">
               <b-field
-                :label="'Property Price' + ' ' +   property.currentPrice + '$'"
+                :label="'Property Price' + ' ' + property.currentPrice + '€'"
                 expanded
               >
-                <b-input type="text"  placeholder="add new price" v-model="price" required></b-input>
+                <b-input
+                  type="text"
+                  placeholder="add new price"
+                  v-model="price"
+                  required
+                ></b-input>
               </b-field>
             </div>
           </div>
           <b-field label="Description">
-            <b-input v-model="name" maxlength="1000" type="textarea" required></b-input>
+            <b-input
+              v-model="name"
+              maxlength="1000"
+              type="textarea"
+              required
+            ></b-input>
           </b-field>
           <b-field
             v-for="index in count"
@@ -120,6 +123,9 @@ export default {
         })
         .then(() => {
           (this.isActive = true),
+            (this.price = ""),
+            (this.img = ""),
+            (this.name = ""),
             (this.type = "is-warning"),
             (this.notification = "You have successfully updated your property");
         });

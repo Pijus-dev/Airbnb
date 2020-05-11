@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Hero text="Add property"/>
+    <Hero text="Add a property" />
     <div class="container">
       <form @submit.prevent="addProperty">
         <div class="property">
@@ -34,7 +34,7 @@
               </b-field>
             </div>
             <div class="column">
-              <b-field label="Price per night">
+              <b-field label="Price per night €">
                 <b-input placeholder="price" v-model="price" required></b-input>
               </b-field>
             </div>

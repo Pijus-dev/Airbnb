@@ -14,8 +14,11 @@
               <router-link to="/properties">Properties</router-link>
             </b-navbar-item>
             <b-navbar-item>
-              <router-link to="/user">Hello, {{ userName }} </router-link>
+              <router-link to="/addProperty">Host your home</router-link>
             </b-navbar-item>
+            <!-- <b-navbar-item>
+              <router-link to="/user">Hello, {{ userName }} </router-link>
+            </b-navbar-item> -->
             <b-navbar-item>
               <b-button id="btn" @click="logout">LogOut</b-button>
             </b-navbar-item>
@@ -32,6 +35,19 @@
       </b-navbar>
     </div>
     <router-view />
+    <div class="container">
+      <hr>
+      <footer>
+        <div>
+          &#169; HouseAnywhere, Inc.  All right reserved
+        </div>
+        <div class="icons">
+          <i class="fab fa-facebook-f fa-lg"></i>
+          <i class="fab fa-instagram fa-lg"></i>
+          <i class="fab fa-airbnb fa-lg"></i>
+        </div>
+      </footer>
+    </div>
   </section>
 </template>
 <script>
@@ -67,11 +83,11 @@ export default {
           });
       }
     }
-  },
-  beforeMount() {
-    this.getName();
-    console.log(firebase.auth().currentUser.uid);
   }
+  // beforeMount() {
+  //   this.getName();
+  //   console.log(firebase.auth().currentUser.uid);
+  // }
 };
 </script>
 
@@ -104,5 +120,18 @@ a {
 #btn:hover {
   color: white !important;
   background-color: rgb(66, 134, 66) !important ;
+}
+footer{
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding-bottom: 15px !important;
+}
+.icons{
+  margin-right: 10px;
+}
+i {
+  margin-right: 15px;
+  cursor: pointer;
 }
 </style>

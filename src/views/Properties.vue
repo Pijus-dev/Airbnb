@@ -107,6 +107,10 @@ export default {
 .image img {
   width: 150px !important;
 }
+.image img:hover{
+  width: 175px !important;
+  transition: ease-in-out 1s;
+}
 .properties {
   margin-top: 20px;
 }

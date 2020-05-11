@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Hero text="Register" />
+  <div class="wrapper">
+    <Hero text="Host an experience" />
     <div class="container">
       <form @submit.prevent="addInfo">
         <div class="register">
@@ -134,8 +134,7 @@ export default {
   box-shadow: 0 0px 2px 2px #eee;
   border-radius: 8px;
 }
-h1 {
-  color: rgb(83, 82, 82) !important;
-  font-size: 2rem !important;
+.wrapper{
+  height: 80vh;
 }
 </style>

@@ -9,7 +9,7 @@
       <div class="columns">
         <div class="column">
           <h1>{{ property.city }}</h1>
-          <p class="subtitle is-3">{{ property.price }} per night</p>
+          <p class="subtitle is-3">{{ property.price }}&euro; per night</p>
           <p class="subtitle is-4">{{ property.name }}</p>
         </div>
         <div class="column">
