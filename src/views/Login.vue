@@ -2,7 +2,7 @@
   <div class="about">
     <Hero text="Login" />
     <div class="container">
-      <div class="login">
+      <div class="login animate__animated animate__bounceInUp">
         <b-notification
           :active.sync="isActive"
           v-bind:class="type"

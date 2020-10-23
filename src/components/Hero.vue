@@ -2,7 +2,7 @@
   <section class="hero text">
     <div class="hero-body">
       <div class="container">
-        <h1>
+        <h1 class="animate__animated animate__bounceInRight">
           {{ text }}
         </h1>
       </div>

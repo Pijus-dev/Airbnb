@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Spinner v-bind:loading="loadingScreen" />
-    <Hero text="Properties"/>
+    <Hero text="Properties" />
     <div class="container">
       <div class="properties">
         <div
@@ -52,8 +51,8 @@
 <script>
 import firebase from "firebase/app";
 import "firebase/firebase-firestore";
-import Spinner from "../components/Spinner";
 import Hero from "../components/Hero";
+
 export default {
   name: "Properties",
   data() {
@@ -62,13 +61,13 @@ export default {
       loadingScreen: true
     };
   },
-  components: { Spinner, Hero },
+  components: { Hero },
   methods: {
     getData() {
       firebase
         .firestore()
         .collection("properties")
-        // .where("uid", "==", firebase.auth().currentUser.uid)
+        .where("uid", "===", firebase.auth().currentUser.uid)
         .get()
         .then(data => {
           data.forEach(product => {
@@ -82,9 +81,6 @@ export default {
             };
             this.properties.push(obj);
           });
-        })
-        .then(() => {
-          this.loadingScreen = false;
         });
     },
     redirect() {
@@ -107,7 +103,7 @@ export default {
 .image img {
   width: 150px !important;
 }
-.image img:hover{
+.image img:hover {
   width: 175px !important;
   transition: ease-in-out 1s;
 }

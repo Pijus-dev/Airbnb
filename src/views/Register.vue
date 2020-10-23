@@ -3,7 +3,7 @@
     <Hero text="Host an experience" />
     <div class="container">
       <form @submit.prevent="addInfo">
-        <div class="register">
+        <div class="register animate__animated animate__bounceInUp">
           <b-notification
             :active.sync="isActive"
             v-bind:class="type"

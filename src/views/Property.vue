@@ -4,13 +4,13 @@
     <Hero :text="property.title" />
     <div class="container">
       <br />
-      <router-link to="/properties"> Back to all properties</router-link>
+      <router-link to="/properties">Back to all properties</router-link>
       <hr />
       <div class="columns">
         <div class="column">
           <h1>{{ property.city }}</h1>
           <p class="subtitle is-3">{{ property.price }}&euro; per night</p>
-          <p class="subtitle is-4">{{ property.name }}</p>
+          <p class="subtitle is-4 animate__animated animate__bounceInDown">{{ property.name }}</p>
         </div>
         <div class="column">
           <b-carousel class="carousel" :indicator="false" :pause-info="false">
@@ -18,10 +18,6 @@
               <img :src="carousel" />
             </b-carousel-item>
           </b-carousel>
-          <!-- <p class="subtitle">{{ property.price }}</p> -->
-          <!-- <div class="card-content">
-            <p>{{ property.name }}</p>
-          </div> -->
         </div>
       </div>
     </div>
